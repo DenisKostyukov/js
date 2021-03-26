@@ -1,10 +1,11 @@
 'use strict';
 
-const number=+prompt("Input number")
+const number=+prompt("Input number");
+const power=+prompt("Input power");
 let counter=1;
 let result=1;
-while(counter<=number){
-  result*=counter;
+while(counter<=power){
+  result*=number;
   counter++;
 }
-alert(result);
+console.log(result);
