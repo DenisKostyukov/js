@@ -1,10 +1,12 @@
 'use strict';
 
-const PROTOCOL = 'http://';
-const SERVER_IP = 'localhost';
-const PORT = 3000;
-function createQuery(absPath='/home'){
-  const url=`${PROTOCOL}${SERVER_IP}:${PORT}${absPath}`;
-  return url;
+function createMultiplicationTable(){
+  const table= {};
+  for(let i=1;i<=10;i++){
+    for(let j=1;j<=10;j++){
+      table[`${i} * ${j} = `]= i*j;
+    }
+  }
+  return table;
 }
-console.log(createQuery("/index.html"));
+console.log(createMultiplicationTable());
