@@ -1,32 +1,10 @@
 'use strict';
 
-const user = {
-  firstName: 'Test',
-  lastName: 'Testovich',
-  age: 18,
-  isMale: true,
-  sayHello: function () {
-    return `Hello my name is ${this.firstName} ${this.lastName}`;
-  },
-  isAdult: function () {
-    return this.age >= 18;
-  }
+const PROTOCOL = 'http://';
+const SERVER_IP = 'localhost';
+const PORT = 3000;
+function createQuery(absPath='/home'){
+  const url=`${PROTOCOL}${SERVER_IP}:${PORT}${absPath}`;
+  return url;
 }
-//alert(user.sayHello());
-//alert(user.isAdult());
-
-const User = function (firstName, lastName, age, isMale) {
-  this.firstName = firstName;
-  this.lastName = lastName;
-  this.age = age;
-  this.isMale = isMale;
-  this.sayHello = function () {
-    return `Hello my name is ${this.firstName} ${this.lastName}`;
-  };
-  this.isAdult = function () {
-    return this.age >= 18;
-  }
-}
-const secondUser = new User('Test', 'Testovich', 19, true);
-console.log(secondUser.sayHello());
-console.log(secondUser.isAdult());
+console.log(createQuery("/index.html"));
