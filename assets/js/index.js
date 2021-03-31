@@ -1,6 +1,6 @@
 'use strict';
 
-function MyArrayProto() {
+function AccucumulatorProto() {
   this.push = function push() {
     for (let i = 0; i < arguments.length; i++) {
       this[this.lenght++] = arguments[i];
@@ -12,13 +12,19 @@ function MyArrayProto() {
     const lastValue = this[this.lenght - 1];
     delete this[--this.lenght];
     return lastValue;
-
+  }
+  this.read= function read(){
+    let number= +prompt("Input number");
+    this.push(number);
+    return this.value+=number;
   }
 }
 
-function MyArray() {
+function Accumulator(startingValue=0) {
   this.lenght = 0;
-    this.push(...arguments);
+  this.value = startingValue;
+  this.push(...arguments);
 }
-MyArray.prototype = new MyArrayProto();
-const myArr1 = new MyArray();
+Accumulator.prototype = new AccucumulatorProto();
+//let firstNumber = +prompt("input first number");
+const myArr1 = new Accumulator(10);
