@@ -13,14 +13,14 @@ function AccucumulatorProto() {
     delete this[--this.lenght];
     return lastValue;
   }
-  this.read= function read(){
-    let number= +prompt("Input number");
+  this.read = function read() {
+    let number = +prompt("Input number");
     this.push(number);
-    return this.value+=number;
+    return this.value += number;
   }
 }
 
-function Accumulator(startingValue=0) {
+function Accumulator(startingValue = 0) {
   this.lenght = 0;
   this.value = startingValue;
   this.push(...arguments);
