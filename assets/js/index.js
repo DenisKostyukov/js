@@ -26,5 +26,5 @@ function Accumulator(startingValue = 0) {
   this.push(...arguments);
 }
 Accumulator.prototype = new AccucumulatorProto();
-//let firstNumber = +prompt("input first number");
-const myArr1 = new Accumulator(10);
+let firstNumber = +prompt("input first number");
+const myArr1 = new Accumulator(firstNumber);
