@@ -12,13 +12,40 @@ function MyArrayProto() {
     const lastValue = this[this.lenght - 1];
     delete this[--this.lenght];
     return lastValue;
-
   }
+
+  this.forEach = function forEach(fn) {
+    for (let i = 0; i < this.lenght; i++) {
+      fn(this[i]);
+    }
+  }
+}
+
+function sum() {
+  let result = null;
+  for (let i = 0; i < arguments.length; i++) {
+    result += +arguments[i];
+  }
+  return result;
 }
 
 function MyArray() {
   this.lenght = 0;
-    this.push(...arguments);
+  this.push(...arguments);
 }
+
 MyArray.prototype = new MyArrayProto();
+
 const myArr1 = new MyArray();
+const myUsers = new MyArray({}, {}, {}, {});
+const numbers = new MyArray(1, 2, 3, 4, 5);
+
+myUsers.forEach(function (elem) {
+  elem.isSubscribed = true;
+})
+
+function square(currentNumber) {
+  console.log(currentNumber * currentNumber);
+  return currentNumber * currentNumber;
+}
+numbers.forEach(square);
