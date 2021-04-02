@@ -1,6 +1,6 @@
 'use strict';
 
-function MyArrayProto() {
+function AccucumulatorProto() {
   this.push = function push() {
     for (let i = 0; i < arguments.length; i++) {
       this[this.lenght++] = arguments[i];
@@ -12,6 +12,11 @@ function MyArrayProto() {
     const lastValue = this[this.lenght - 1];
     delete this[--this.lenght];
     return lastValue;
+  }
+  this.read = function read() {
+    let number = +prompt("Input number");
+    this.push(number);
+    return this.value += number;
   }
 
   this.forEach = function forEach(fn) {
@@ -29,16 +34,16 @@ function sum() {
   return result;
 }
 
-function MyArray() {
+function Accumulator(startingValue = 0) {
   this.lenght = 0;
   this.push(...arguments);
 }
 
-MyArray.prototype = new MyArrayProto();
+Accumulator.prototype = new AccucumulatorProto();
 
-const myArr1 = new MyArray();
-const myUsers = new MyArray({}, {}, {}, {});
-const numbers = new MyArray(1, 2, 3, 4, 5);
+const myArr1 = new Accumulator();
+const myUsers = new Accumulator({}, {}, {}, {});
+const numbers = new Accumulator(1, 2, 3, 4, 5);
 
 myUsers.forEach(function (elem,index) {
   elem.id=index;
@@ -50,6 +55,6 @@ function square(currentNumber) {
   return currentNumber * currentNumber;
 }
 numbers.forEach(square);
-numbers.forEach(function(currentNumber, index, arr){
+numbers.forEach(function (currentNumber, index, arr){
   arr[index]= square(currentNumber);
-})
+});
