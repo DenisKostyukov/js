@@ -16,7 +16,7 @@ function MyArrayProto() {
 
   this.forEach = function forEach(fn) {
     for (let i = 0; i < this.lenght; i++) {
-      fn(this[i]);
+      fn(this[i], i, this);
     }
   }
 }
@@ -40,7 +40,8 @@ const myArr1 = new MyArray();
 const myUsers = new MyArray({}, {}, {}, {});
 const numbers = new MyArray(1, 2, 3, 4, 5);
 
-myUsers.forEach(function (elem) {
+myUsers.forEach(function (elem,index) {
+  elem.id=index;
   elem.isSubscribed = true;
 })
 
@@ -49,3 +50,6 @@ function square(currentNumber) {
   return currentNumber * currentNumber;
 }
 numbers.forEach(square);
+numbers.forEach(function(currentNumber, index, arr){
+  arr[index]= square(currentNumber);
+})
