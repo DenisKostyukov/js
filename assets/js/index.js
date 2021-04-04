@@ -1,11 +1,21 @@
 'use strict';
 
-function AccucumulatorProto() {
+function MyArrayProto() {
+  this.isMyArray= function isMyArray(){
+    const result= this instanceof MyArrayProto
+    return result;
+  }
   this.push = function push() {
     for (let i = 0; i < arguments.length; i++) {
       this[this.lenght++] = arguments[i];
     }
     return this.lenght;
+  }
+  this.concat = function concat(arr) {
+    for (let i = 0; i < arr.lenght; i++) {
+      this.push(arr[i]);
+    }
+    return this;
   }
   this.pop = function pop() {
     if (this.lenght === 0) return
@@ -13,12 +23,29 @@ function AccucumulatorProto() {
     delete this[--this.lenght];
     return lastValue;
   }
+  this.unshift = function unshift() {
+    for (let i = 0; i < this.lenght; i++) {
+    }
+    return this;
+  }
+  this.reverse= function reverse(){
+    for(let i=this.lenght-1;i>=0;i--){
+      this.push(this[i]);
+    }
+    return this;
+  }
+  this.shift = function shift() {
+    if (this.lenght === 0) return
+    const firstNumber = this[0];
+    delete this[0];
+    this.lenght--;
+    return firstNumber;
+  }
   this.read = function read() {
     let number = +prompt("Input number");
     this.push(number);
     return this.value += number;
   }
-
   this.forEach = function forEach(fn) {
     for (let i = 0; i < this.lenght; i++) {
       fn(this[i], i, this);
@@ -34,19 +61,19 @@ function sum() {
   return result;
 }
 
-function Accumulator(startingValue = 0) {
+function MyArray(startingValue = 0) {
   this.lenght = 0;
   this.push(...arguments);
 }
 
-Accumulator.prototype = new AccucumulatorProto();
-
-const myArr1 = new Accumulator();
-const myUsers = new Accumulator({}, {}, {}, {});
-const numbers = new Accumulator(1, 2, 3, 4, 5);
-
-myUsers.forEach(function (elem,index) {
-  elem.id=index;
+MyArray.prototype = new MyArrayProto();
+const myArr1 = new MyArray(6, 7, 8);
+const myUsers = new MyArray({}, {}, {}, {});
+const numbers = new MyArray(1, 2, 3, 4, 5);
+const num = new MyArray(1, 2, 3);
+const num1 = new MyArray(11, 22, 33);
+myUsers.forEach(function (elem, index) {
+  elem.id = index;
   elem.isSubscribed = true;
 })
 
@@ -55,6 +82,6 @@ function square(currentNumber) {
   return currentNumber * currentNumber;
 }
 numbers.forEach(square);
-numbers.forEach(function (currentNumber, index, arr){
-  arr[index]= square(currentNumber);
+numbers.forEach(function (currentNumber, index, arr) {
+  arr[index] = square(currentNumber);
 });
