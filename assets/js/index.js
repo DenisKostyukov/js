@@ -1,21 +1,28 @@
 'use strict';
 
 function MyArrayProto() {
-  this.isMyArray= function isMyArray(){
-    const result= this instanceof MyArrayProto
-    return result;
-  }
+
   this.push = function push() {
     for (let i = 0; i < arguments.length; i++) {
       this[this.lenght++] = arguments[i];
     }
     return this.lenght;
   }
-  this.concat = function concat(arr) {
-    for (let i = 0; i < arr.lenght; i++) {
-      this.push(arr[i]);
+  this.concat = function concat() {
+    const newArray = new MyArray();
+    for (let i = 0; i < this.length; i++) {
+      newArray.push(this[i]);
     }
-    return this;
+    for (let i = 0; i < arguments.length; i++) {
+      if (MyArray.isMyArray(arguments[i]) || Array.isArray(arguments[i])) {
+        for (let j = 0; j < arguments[i].length; j++) {
+          newArray.push(arguments[i][j]);
+        }
+      } else {
+        newArray.push(arguments[i]);
+      }
+    }
+    return newArray;
   }
   this.pop = function pop() {
     if (this.lenght === 0) return
@@ -24,21 +31,31 @@ function MyArrayProto() {
     return lastValue;
   }
   this.unshift = function unshift() {
-    for (let i = 0; i < this.lenght; i++) {
+    for (let i = this.lenght - 1; i >= 0; i--) {
+      this[i + arguments.length] = this[i];
     }
-    return this;
+    for (let i = 0; i < arguments.length; i++) {
+      this[i] = arguments[i];
+    }
+    return this.lenght += arguments.length;
   }
-  this.reverse= function reverse(){
-    for(let i=this.lenght-1;i>=0;i--){
-      this.push(this[i]);
+  this.reverse = function reverse() {
+    const maxIndex = this.lenght - 1;
+    const middle = maxIndex / 2;
+    for (let i = 0; i < middle; i++) {
+      const temp = this[i];
+      this[i] = this[maxIndex - i];
+      this[maxIndex - i] = temp;
     }
     return this;
   }
   this.shift = function shift() {
-    if (this.lenght === 0) return
+    if (this.lenght === 0) return;
     const firstNumber = this[0];
-    delete this[0];
-    this.lenght--;
+    for (let i = 0; i < this.lenght - 1; i++) {
+      this[i] = this[i + 1];
+    }
+    delete this[--this.lenght];
     return firstNumber;
   }
   this.read = function read() {
@@ -46,10 +63,42 @@ function MyArrayProto() {
     this.push(number);
     return this.value += number;
   }
-  this.forEach = function forEach(fn) {
+  this.forEach = function forEach(callback) {
     for (let i = 0; i < this.lenght; i++) {
-      fn(this[i], i, this);
+      callback(this[i], i, this);
     }
+  }
+  this.map = function map(callback) {
+    const newArray = new MyArray();
+    for (let i = 0; i < this.lenght; i++) {
+      newArray.push(callback(this[i], i, this));
+    }
+    return newArray;
+  }
+  this.some = function some(callback) {
+    for (let i = 0; i < this.lenght; i++) {
+      if (callback(this[i], i, this))
+        return true;
+    }
+    return false;
+  }
+  
+  this.every = function every(callback) {
+    for (let i = 0; i < this.lenght; i++) {
+      if (!callback(this[i], i, this)){
+        return false;
+      }  
+    }
+    return true;
+  }
+  this.filter= function filter(callback){
+    const newArray= new MyArray()
+    for (let i = 0; i < this.lenght; i++) {
+      if (callback(this[i], i, this)){
+        newArray.push(this[i]);
+      }
+    }
+    return newArray;
   }
 }
 
@@ -61,13 +110,17 @@ function sum() {
   return result;
 }
 
-function MyArray(startingValue = 0) {
+function MyArray() {
   this.lenght = 0;
-  this.push(...arguments);
+  for (let i = 0; i < arguments.length; i++) {
+    this.push(arguments[i])
+  }
 }
-
+MyArray.__proto__.isMyArray = function isMyArray(arr) {
+  return arr instanceof MyArray;
+}
 MyArray.prototype = new MyArrayProto();
-const myArr1 = new MyArray(6, 7, 8);
+const myArr1 = new MyArray(6, 6, 8);
 const myUsers = new MyArray({}, {}, {}, {});
 const numbers = new MyArray(1, 2, 3, 4, 5);
 const num = new MyArray(1, 2, 3);
@@ -77,11 +130,15 @@ myUsers.forEach(function (elem, index) {
   elem.isSubscribed = true;
 })
 
+function isEven(num) {
+  return num % 2 === 0
+}
+function isOdd(num) {
+  return num % 2 === 1
+}
+
 function square(currentNumber) {
   console.log(currentNumber * currentNumber);
   return currentNumber * currentNumber;
 }
 numbers.forEach(square);
-numbers.forEach(function (currentNumber, index, arr) {
-  arr[index] = square(currentNumber);
-});
