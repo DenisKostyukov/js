@@ -116,23 +116,68 @@ function MyArray() {
     this.push(arguments[i])
   }
 }
+
 MyArray.__proto__.isMyArray = function isMyArray(arr) {
   return arr instanceof MyArray;
 }
+
 MyArray.prototype = new MyArrayProto();
 const myArr1 = new MyArray(6, 6, 8);
-const myUsers = new MyArray({}, {}, {}, {});
-const numbers = new MyArray(1, 2, 3, 4, 5);
-const num = new MyArray(1, 2, 3);
-const num1 = new MyArray(11, 22, 33);
-myUsers.forEach(function (elem, index) {
-  elem.id = index;
-  elem.isSubscribed = true;
-})
+const testArray = new MyArray();
+
+/*Math random Practice*/
+
+
+function randomNumber(min, max){
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+for(let i = 0;i<10;i++){
+  testArray.push(randomNumber(100, 200));
+}
+
+/*Variant 1*/
+
+function Obj(email, age, isMale){
+  this.email=email;
+  this.age=age;
+  this.isMale=isMale;
+}
+
+function getUsers(amount){
+  const newArray=new MyArray();
+
+  for(let i = 0;i<amount;i++){
+    const age= randomNumber(12, 50);
+    const isMale= Boolean(randomNumber(0, 1));
+    const email= `user${i}@gmail.com`;
+    newArray.push(new Obj(email, age, isMale));
+  }
+  return newArray;
+}
+
+/*Variant 2*/
+
+function getUsers1(amount){
+  const newArray=new MyArray();
+
+  for(let i = 0;i<amount;i++){
+    newArray.push({});
+  }
+  newArray.forEach(function (elem, index) {
+    elem.email = `user${index}@gmail.com`;
+    elem.age = randomNumber(12, 50);
+    elem.isMale= Boolean(randomNumber(0, 1));;
+  })
+  return newArray;
+}
 
 function isEven(num) {
   return num % 2 === 0
 }
+
 function isOdd(num) {
   return num % 2 === 1
 }
@@ -141,4 +186,4 @@ function square(currentNumber) {
   console.log(currentNumber * currentNumber);
   return currentNumber * currentNumber;
 }
-numbers.forEach(square);
+
