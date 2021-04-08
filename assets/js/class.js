@@ -1,21 +1,67 @@
 class Worker {
+  /**
+   * 
+   * @param {string} name 
+   * @param {string} surname 
+   * @param {number} dailyRate 
+   * @param {number} days 
+   */
   constructor(name, surname, dailyRate, days) {
     this.name = name;
     this.surname = surname;
     this.dailyRate = dailyRate;
     this.days = days;
   }
-  getSalary() {
-    return this.dailyRate * this.days;
+  set dailyRate(newRate) {
+    if (typeof newRate !== "number") {
+      throw new TypeError("Parameter has unnaproppriate type");
+    }
+    this._dailyRate = newRate;
+  }
+  get dailyRate() {
+    return this._dailyRate;
+  }
+  set days(newDaysCount) {
+    if (newDaysCount < 0 || newDaysCount > 31) {
+      throw new RangeError("Wrong days range");
+    }
+    if (typeof newDaysCount !== "number") {
+      throw new TypeError('Parameters have unnapropriate type');
+    }
+    this._days = newDaysCount;
+  }
+  get days() {
+    return this._days;
+  }
+  get salary() {
+    return this._dailyRate * this.days;
   }
 }
-const worker = new Worker("Denis", "Kostyukov", 100, 25);
+
 class Fuel {
   constructor(volume, density) {
     this.volume = volume;
     this.density = density;
   }
-  getFullWeight() {
+  set volume(newVolume){
+    if (typeof newVolume !== "number") {
+      throw new TypeError("Wrong type");
+    }
+    this._volume=newVolume;
+  }
+  get volume(){
+    return this._volume;
+  }
+  set density(newDensity){
+    if (typeof newDensity !== "number") {
+      throw new TypeError("Wrong type");
+    }
+    this._density=newDensity;
+  }
+  get density(){
+    return this._density;
+  }
+  get getFullWeight() {
     return this.volume * this.density;
   }
 }
@@ -25,12 +71,30 @@ class Auto {
     this.weight = weight;
     this.fuel = fuel;
   }
-  getFullWeight() {
+  set model(newModel) {
+    if (typeof newModel !== "number") {
+      throw new TypeError("Wrong type");
+    }
+    this._model = newModel;
+  }
+  get model() {
+    return _model;
+  }
+  set weight(newWeight){
+    if (typeof newWeight !== "number") {
+      throw new TypeError("Wrong type");
+    }
+    this._weight=newWeight;
+  }
+  get weight(){
+    return this._weight;
+  }
+  get getFullWeight() {
     return this.weight + this.fuel.getFullWeight();
   }
 }
 const benzin = new Fuel(50, 0.9);
-const auto = new Auto('passat', 1200, benzin);
+const auto = new Auto(12, 1200, benzin);
 
 class Friend {
   /**
@@ -50,4 +114,4 @@ class Friend {
 }
 const friend1 = new Friend('John', 5);
 const friend2 = new Friend('Bob', 10, friend1);
-friend1.friend=friend2;
+friend1.friend = friend2;
