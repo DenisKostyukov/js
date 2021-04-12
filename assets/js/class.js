@@ -1,117 +1,46 @@
-class Worker {
-  /**
-   * 
-   * @param {string} name 
-   * @param {string} surname 
-   * @param {number} dailyRate 
-   * @param {number} days 
-   */
-  constructor(name, surname, dailyRate, days) {
+class Figure {
+  constructor(name) {
     this.name = name;
-    this.surname = surname;
-    this.dailyRate = dailyRate;
-    this.days = days;
   }
-  set dailyRate(newRate) {
-    if (typeof newRate !== "number") {
-      throw new TypeError("Parameter has unnaproppriate type");
+  get name() {
+    return this.name;
+  }
+  set name(newValue) {
+    if (typeof newValue !== 'string') {
+      throw new TypeError();
     }
-    this._dailyRate = newRate;
+    this._name = newValue;
   }
-  get dailyRate() {
-    return this._dailyRate;
-  }
-  set days(newDaysCount) {
-    if (newDaysCount < 0 || newDaysCount > 31) {
-      throw new RangeError("Wrong days range");
+  _validate(newValue) {
+    if (typeof newValue !== 'number') {
+      throw new TypeError();
     }
-    if (typeof newDaysCount !== "number") {
-      throw new TypeError('Parameters have unnapropriate type');
+    if (newValue <= 0) {
+      throw new RangeError();
     }
-    this._days = newDaysCount;
   }
-  get days() {
-    return this._days;
+  getArea() {}
+}
+class Circle extends Figure {
+  constructor(radius) {
+    super('Circle');
+    this.radius = radius;
   }
-  get salary() {
-    return this._dailyRate * this.days;
+  get radius(){
+    return _radius;
+  }
+  set radius(newValue){
+    this._validate(newValue);
+    this._radius=newValue;
+  }
+  getArea() {
+    return Math.PI * (this._radius ** 2);
   }
 }
-
-class Fuel {
-  constructor(volume, density) {
-    this.volume = volume;
-    this.density = density;
+const circle = new Circle(5);
+function getFigureArea(figure){
+  if(figure instanceof Figure){
+    return figure.getArea();
   }
-  set volume(newVolume){
-    if (typeof newVolume !== "number") {
-      throw new TypeError("Wrong type");
-    }
-    this._volume=newVolume;
-  }
-  get volume(){
-    return this._volume;
-  }
-  set density(newDensity){
-    if (typeof newDensity !== "number") {
-      throw new TypeError("Wrong type");
-    }
-    this._density=newDensity;
-  }
-  get density(){
-    return this._density;
-  }
-  get getFullWeight() {
-    return this.volume * this.density;
-  }
+  throw new TypeError();
 }
-class Auto {
-  constructor(model, weight, fuel) {
-    this.model = model;
-    this.weight = weight;
-    this.fuel = fuel;
-  }
-  set model(newModel) {
-    if (typeof newModel !== "number") {
-      throw new TypeError("Wrong type");
-    }
-    this._model = newModel;
-  }
-  get model() {
-    return _model;
-  }
-  set weight(newWeight){
-    if (typeof newWeight !== "number") {
-      throw new TypeError("Wrong type");
-    }
-    this._weight=newWeight;
-  }
-  get weight(){
-    return this._weight;
-  }
-  get getFullWeight() {
-    return this.weight + this.fuel.getFullWeight();
-  }
-}
-const benzin = new Fuel(50, 0.9);
-const auto = new Auto(12, 1200, benzin);
-
-class Friend {
-  /**
-   * 
-   * @param {string} name 
-   * @param {number} appleCount 
-   * @param {Friend} friend 
-   */
-  constructor(name, appleCount, friend) {
-    this.name = name;
-    this.appleCount = appleCount;
-    this.friend = friend;
-  }
-  getAllApples() {
-    return this.appleCount + this.friend.appleCount;
-  }
-}
-const friend1 = new Friend('John', 5);
-const friend2 = new Friend('Bob', 10, friend1);
-friend1.friend = friend2;

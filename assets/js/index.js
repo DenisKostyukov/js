@@ -8,10 +8,8 @@ function sum() {
 }
 
 
-
-MyArray.prototype = new MyArrayProto();
 const myArr1 = new MyArray(6, 6, 8);
-const testArray = new MyArray();
+const testArray = new MyArray(3,4,5);
 
 /*Math random Practice*/
 
