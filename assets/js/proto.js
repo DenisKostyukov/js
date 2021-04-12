@@ -1,15 +1,19 @@
 'use strict';
 const NATIONALITY = ["uk", "ru", "en", "fr", "sp"];
-
-function MyArrayProto() {
-
-  this.push = function push() {
+class MyArray{
+  constructor(){
+    this.lenght = 0;
+    for (let i = 0; i < arguments.length; i++) {
+      this.push(arguments[i])
+    }
+  }
+  push() {
     for (let i = 0; i < arguments.length; i++) {
       this[this.lenght++] = arguments[i];
     }
     return this.lenght;
   }
-  this.concat = function concat() {
+  concat() {
     const newArray = new MyArray();
     for (let i = 0; i < this.length; i++) {
       newArray.push(this[i]);
@@ -25,13 +29,13 @@ function MyArrayProto() {
     }
     return newArray;
   }
-  this.pop = function pop() {
+  pop() {
     if (this.lenght === 0) return
     const lastValue = this[this.lenght - 1];
     delete this[--this.lenght];
     return lastValue;
   }
-  this.unshift = function unshift() {
+  unshift() {
     for (let i = this.lenght - 1; i >= 0; i--) {
       this[i + arguments.length] = this[i];
     }
@@ -40,7 +44,7 @@ function MyArrayProto() {
     }
     return this.lenght += arguments.length;
   }
-  this.reverse = function reverse() {
+  reverse() {
     const maxIndex = this.lenght - 1;
     const middle = maxIndex / 2;
     for (let i = 0; i < middle; i++) {
@@ -50,7 +54,7 @@ function MyArrayProto() {
     }
     return this;
   }
-  this.shift = function shift() {
+  shift() {
     if (this.lenght === 0) return;
     const firstNumber = this[0];
     for (let i = 0; i < this.lenght - 1; i++) {
@@ -59,24 +63,24 @@ function MyArrayProto() {
     delete this[--this.lenght];
     return firstNumber;
   }
-  this.read = function read() {
+  read() {
     let number = +prompt("Input number");
     this.push(number);
     return this.value += number;
   }
-  this.forEach = function forEach(callback) {
+  forEach(callback) {
     for (let i = 0; i < this.lenght; i++) {
       callback(this[i], i, this);
     }
   }
-  this.map = function map(callback) {
+  map(callback) {
     const newArray = new MyArray();
     for (let i = 0; i < this.lenght; i++) {
       newArray.push(callback(this[i], i, this));
     }
     return newArray;
   }
-  this.some = function some(callback) {
+  some(callback) {
     for (let i = 0; i < this.lenght; i++) {
       if (callback(this[i], i, this))
         return true;
@@ -84,7 +88,7 @@ function MyArrayProto() {
     return false;
   }
 
-  this.every = function every(callback) {
+  every(callback) {
     for (let i = 0; i < this.lenght; i++) {
       if (!callback(this[i], i, this)) {
         return false;
@@ -92,7 +96,7 @@ function MyArrayProto() {
     }
     return true;
   }
-  this.filter = function filter(callback) {
+  filter(callback) {
     const newArray = new MyArray()
     for (let i = 0; i < this.lenght; i++) {
       if (callback(this[i], i, this)) {
@@ -101,14 +105,12 @@ function MyArrayProto() {
     }
     return newArray;
   }
-}
-function MyArray() {
-  this.lenght = 0;
-  for (let i = 0; i < arguments.length; i++) {
-    this.push(arguments[i])
+  flat(depth){
+    const result = new MyArray();
+    
+    return result;
   }
-}
-
-MyArray.__proto__.isMyArray = function isMyArray(arr) {
-  return arr instanceof MyArray;
+  static isMyArray(arr) {
+    return arr instanceof MyArray;
+  }
 }
