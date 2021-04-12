@@ -1,17 +1,9 @@
-'use strict';
-const NATIONALITY = ["uk", "ru", "en", "fr", "sp"];
-class MyArray{
-  constructor(){
-    this.lenght = 0;
+class MyArray {
+  constructor() {
+    this.length = 0;
     for (let i = 0; i < arguments.length; i++) {
-      this.push(arguments[i])
+      this.push(arguments[i]);
     }
-  }
-  push() {
-    for (let i = 0; i < arguments.length; i++) {
-      this[this.lenght++] = arguments[i];
-    }
-    return this.lenght;
   }
   concat() {
     const newArray = new MyArray();
@@ -29,23 +21,40 @@ class MyArray{
     }
     return newArray;
   }
+  push() {
+    for (let i = 0; i < arguments.length; i++) {
+      this[this.length++] = arguments[i];
+    }
+    return this.length;
+  }
   pop() {
-    if (this.lenght === 0) return
-    const lastValue = this[this.lenght - 1];
-    delete this[--this.lenght];
+    if (this.length === 0) return;
+
+    const lastValue = this[this.length - 1];
+    delete this[--this.length];
     return lastValue;
   }
   unshift() {
-    for (let i = this.lenght - 1; i >= 0; i--) {
+    for (let i = this.length - 1; i >= 0; i--) {
       this[i + arguments.length] = this[i];
     }
     for (let i = 0; i < arguments.length; i++) {
       this[i] = arguments[i];
     }
-    return this.lenght += arguments.length;
+    return (this.length += arguments.length);
   }
+  shift() {
+    if (this.length === 0) return;
+    const firstElem = this[0];
+    for (let i = 0; i < this.length - 1; i++) {
+      this[i] = this[i + 1];
+    }
+    delete this[--this.length];
+    return firstElem;
+  }
+  
   reverse() {
-    const maxIndex = this.lenght - 1;
+    const maxIndex = this.length - 1;
     const middle = maxIndex / 2;
     for (let i = 0; i < middle; i++) {
       const temp = this[i];
@@ -54,42 +63,32 @@ class MyArray{
     }
     return this;
   }
-  shift() {
-    if (this.lenght === 0) return;
-    const firstNumber = this[0];
-    for (let i = 0; i < this.lenght - 1; i++) {
-      this[i] = this[i + 1];
-    }
-    delete this[--this.lenght];
-    return firstNumber;
-  }
-  read() {
-    let number = +prompt("Input number");
-    this.push(number);
-    return this.value += number;
-  }
+  /**
+   *
+   * @param {function} callback
+   */
   forEach(callback) {
-    for (let i = 0; i < this.lenght; i++) {
+    for (let i = 0; i < this.length; i++) {
       callback(this[i], i, this);
     }
   }
   map(callback) {
     const newArray = new MyArray();
-    for (let i = 0; i < this.lenght; i++) {
+    for (let i = 0; i < this.length; i++) {
       newArray.push(callback(this[i], i, this));
     }
     return newArray;
   }
   some(callback) {
-    for (let i = 0; i < this.lenght; i++) {
-      if (callback(this[i], i, this))
+    for (let i = 0; i < this.length; i++) {
+      if (callback(this[i], i, this)) {
         return true;
+      }
     }
     return false;
   }
-
   every(callback) {
-    for (let i = 0; i < this.lenght; i++) {
+    for (let i = 0; i < this.length; i++) {
       if (!callback(this[i], i, this)) {
         return false;
       }
@@ -97,20 +96,43 @@ class MyArray{
     return true;
   }
   filter(callback) {
-    const newArray = new MyArray()
-    for (let i = 0; i < this.lenght; i++) {
+    const newArray = new MyArray();
+    for (let i = 0; i < this.length; i++) {
       if (callback(this[i], i, this)) {
         newArray.push(this[i]);
       }
     }
     return newArray;
   }
-  flat(depth){
-    const result = new MyArray();
-    
+  flat(depth) {
+    let result = new MyArray();
+    this.forEach((item) => {
+      if (MyArray.isMyArray(item) && depth > 0) {
+        result = result.concat(item.flat(depth - 1));
+      } else if (item !== undefined) {
+        result.push(item);
+      }
+    });
+
     return result;
   }
   static isMyArray(arr) {
     return arr instanceof MyArray;
   }
 }
+const arr = new MyArray(
+  1,
+  1,
+  1,
+  1,
+  new MyArray(2, 2, 2, 2, new MyArray(3, 3, 3, 3, new MyArray(4, 4, 4, 4))),
+  undefined,
+  undefined,
+  undefined,
+  1,
+  1,
+  1,
+  1
+);
+const a1= new MyArray(3,4,5);
+const a2= new MyArray(1,2,3);
