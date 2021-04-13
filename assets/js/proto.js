@@ -1,3 +1,15 @@
+class MyArrayIterator {
+  constructor(array) {
+    this.array = array;
+    this.currentIndex = 0;
+  }
+  next() {
+    return {
+      done: this.currentIndex >= this.array.length,
+      value: this.array[this.currentIndex++],
+    }
+  }
+}
 class MyArray {
   constructor() {
     this.length = 0;
@@ -52,7 +64,7 @@ class MyArray {
     delete this[--this.length];
     return firstElem;
   }
-  
+
   reverse() {
     const maxIndex = this.length - 1;
     const middle = maxIndex / 2;
@@ -119,20 +131,7 @@ class MyArray {
   static isMyArray(arr) {
     return arr instanceof MyArray;
   }
+  [Symbol.iterator]() {
+    return new MyArrayIterator(this);
+  }
 }
-const arr = new MyArray(
-  1,
-  1,
-  1,
-  1,
-  new MyArray(2, 2, 2, 2, new MyArray(3, 3, 3, 3, new MyArray(4, 4, 4, 4))),
-  undefined,
-  undefined,
-  undefined,
-  1,
-  1,
-  1,
-  1
-);
-const a1= new MyArray(3,4,5);
-const a2= new MyArray(1,2,3);
