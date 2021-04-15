@@ -1,7 +1,7 @@
 'use strict';
 
 class Stack {
-  constructor(maxSize = 10,...args) {
+  constructor(maxSize = 10, ...args) {
     this._maxSize = maxSize;
     this._size = 0;
     this.push(...args);
@@ -13,15 +13,15 @@ class Stack {
     return this._size;
   }
   push(...args) {
-    
-    for(const item of args){
+
+    for (const item of args) {
       if (this.size >= this._maxSize) {
         throw new RangeError('Stack overflow');
       }
       this[`_${this.size}`] = item;
       this._size++;
     }
-    
+
     return this.size;
   }
   pop() {
@@ -37,4 +37,38 @@ class Stack {
     return this[`_${this._size-1}`];
   }
 }
-const stack = new Stack(5,1,2,3,4);
+const stack = new Stack(5, 1, 2, 3, 4);
+const options = {
+  braces: {
+    '(': ')',
+    '{': '}',
+    '[': ']',
+    '<': '>',
+  },
+  isStrict: false,
+}
+
+function checkSequence(str, options) {
+  const stack = new Stack();
+  const braces = options.braces;
+  const closeBraces = Object.values(braces);
+  for (const symbol of str) {
+    if (braces[symbol]) {
+      stack.push(symbol)
+      continue
+    }
+    if (closeBraces.includes(symbol) && stack.isEmpty) {
+      return false;
+    }
+    const lastItem = stack.pip();
+    const correctCloseBrace = braces[lastItem];
+    if (symbol === correctCloseBrace) {
+      stack.pop();
+    } else if (braces[symbol] || closeBraces.includes(symbol)) {
+      return false;
+    }  
+  }
+
+  
+  return stack.isEmpty;
+}
