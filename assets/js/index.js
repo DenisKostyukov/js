@@ -16,3 +16,19 @@ const translate = (str) => {
     return vocablurary.has(word) ? vocablurary.get(word) : word;
   }).join(' ');
 }
+const user1 = {
+  id: 1,
+  name: 'John',
+  age: 18,
+}
+const user2 = {
+  id: 2,
+  name: 'Jane',
+  age: 20,
+}
+const u1msg = ["1234", "4342", "sgsg"];
+const u2msg = ["ssgsg", "sfghfd", "fgkjgk"];
+const msg = new Map();
+msg.set(user1.id, u1msg);
+msg.set(user2.id, u2msg);
+const getUserMsgs = (user) => msg.get(user.id);
