@@ -22,16 +22,24 @@ class Queue {
       return lastItem;
     }
   }
-
+  duplicate(){
+    const queue = new Queue();
+    for(let i = this._head; i <this._tail;i++){
+      queue.push(this[i]);
+    }
+    return queue;
+  }
 }
 const mergeQueues = (q1, q2) => {
   const result = new Queue();
-  while (q1.size || q2.size) {
-    if (q1.size !== 0) {
-      result.push(q1.pop());
+  temp1=q1.duplicate();
+  temp2=q2.duplicate();
+  while (temp1.size || temp2.size) {
+    if (temp1.size !== 0) {
+      result.push(temp1.pop());
     }
-    if (q2.size !== 0) {
-      result.push(q2.pop());
+    if (temp2.size !== 0) {
+      result.push(temp2.pop());
     }
 
   }
