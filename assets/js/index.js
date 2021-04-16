@@ -11,15 +11,8 @@ vocablurary.set("queue", "очередь");
 vocablurary.set("kernel", "ядро");
 
 const input = 'cat count dog set queue kernel to the table';
-const translate=(str)=>{
-  const lower= str.toLowerCase();
-  const splittedArr= lower.split(' ');
-  const translate= splittedArr.map((word)=>{
-    if(vocablurary.has(word)){
-     return vocablurary.get(word);
-    }
-    return word;
-  })
-  const trStr= translate.join(' ');
-  return trStr;
+const translate = (str) => {
+  return str.toLowerCase().split(' ').map((word) => {
+    return vocablurary.has(word) ? vocablurary.get(word) : word;
+  }).join(' ');
 }
