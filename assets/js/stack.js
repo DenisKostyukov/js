@@ -57,18 +57,9 @@ function checkSequence(str, options) {
       stack.push(symbol)
       continue
     }
-    if (closeBraces.includes(symbol) && stack.isEmpty) {
+    if (closeBraces.includes(symbol) && braces[stack.pop()] !== symbol) {
       return false;
     }
-    const lastItem = stack.pip();
-    const correctCloseBrace = braces[lastItem];
-    if (symbol === correctCloseBrace) {
-      stack.pop();
-    } else if (braces[symbol] || closeBraces.includes(symbol)) {
-      return false;
-    }  
   }
-
-  
   return stack.isEmpty;
 }
